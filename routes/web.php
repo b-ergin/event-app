@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/events/create', [EventController::class, 'create'])->middleware('auth');
+Route::post('/events', [EventController::class, 'store'])->middleware('auth');
+Route::get('/events/{id}', [EventController::class, 'show']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

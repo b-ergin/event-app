@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Event;
+
+class EventController extends Controller
+{
+    public function index()
+    {
+        $events = Event::all();
+
+        return view('events.index', ['events'=> $events]);
+    }
+
+    public function show($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.show', ['event' => $event]);
+    }
+
+    public function create()
+    {
+        return view('events.create');
+    }
+
+    public function store()
+    {
+        $data = request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'venue' => 'required',
+            'event_date' => 'required|date',
+            'ticket_price' => 'required|numeric|min:0',
+            'total_tickets' => 'required|integer|min:1',
+        ]);
+
+        $data['organizer_id'] = auth()->id();
+
+        Event::create($data);
+
+        return redirect('/events');
+    }
+}
