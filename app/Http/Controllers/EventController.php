@@ -23,11 +23,19 @@ class EventController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
         return view('events.create');
     }
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
         $data = $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -48,12 +56,28 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
+
         return view('events.edit', ['event' => $event]);
     }
 
     public function update(Request $request, string $id)
     {
         $event = Event::findOrFail($id);
+
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
 
         $data = $request->validate([
             'title' => 'required',
@@ -69,9 +93,17 @@ class EventController extends Controller
         return redirect("/events/{$event->id}");
     }
 
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
         $event = Event::findOrFail($id);
+
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
 
         $event->delete();
 
