@@ -18,7 +18,13 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        return view('events.show', ['event' => $event]);
+        $soldTickets = $event->tickets()->sum('quantity');
+        $remainingTickets = $event->total_tickets - $soldTickets;
+
+        return view('events.show', [
+            'event' => $event,
+            'remainingTickets' => $remainingTickets,
+        ]);
     }
 
     public function create()

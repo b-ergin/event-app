@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +16,7 @@ Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/{id}/edit', [EventController::class, 'edit'])->middleware('auth');
 Route::put('/events/{id}', [EventController::class, 'update'])->middleware('auth');
 Route::delete('/events/{id}', [EventController::class, 'destroy'])->middleware('auth');
+Route::post('/events/{id}/tickets', [TicketController::class, 'store'])->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
