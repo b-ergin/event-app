@@ -34,4 +34,11 @@ class TicketController extends Controller
 
         return redirect("/events/{$event->id}")->with('success', 'Ticket Purchased!');
     }
+
+    public function index()
+    {
+        $tickets = auth()->user()->tickets;
+
+        return view('tickets.index', ['tickets' => $tickets,]);
+    }
 }

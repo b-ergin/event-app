@@ -115,4 +115,17 @@ class EventController extends Controller
 
         return redirect('/events');
     }
+
+    public function myEvents()
+    {
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        $events = auth()->user()->events;
+
+        return view('events.my-events', [
+            'events' => $events,
+        ]);
+    }
 }

@@ -4,10 +4,9 @@
     </x-slot>
 
     <div class="p-6">
-
-        <a href="/events/create" style="color: red;">
-            Create Event
-        </a>
+        <a href="/my-tickets">My Tickets</a>
+        <a href="/my-events">My Events</a>
+        <a href="/events/create" style="color: red;">Create Event</a>
 
         <hr>
 

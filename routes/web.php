@@ -17,6 +17,8 @@ Route::get('/events/{id}/edit', [EventController::class, 'edit'])->middleware('a
 Route::put('/events/{id}', [EventController::class, 'update'])->middleware('auth');
 Route::delete('/events/{id}', [EventController::class, 'destroy'])->middleware('auth');
 Route::post('/events/{id}/tickets', [TicketController::class, 'store'])->middleware('auth');
+Route::get('/my-tickets', [TicketController::class, 'index'])->middleware('auth');
+Route::get('/my-events', [EventController::class, 'myEvents'])->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
