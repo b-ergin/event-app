@@ -128,4 +128,44 @@ class EventController extends Controller
             'events' => $events,
         ]);
     }
+
+    public function buyers(string $id)
+    {
+        $event = Event::findOrFail($id);
+
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $tickets = $event->tickets;
+
+        return view('events.buyers', [
+            'event' => $event,
+            'tickets' => $tickets,
+        ]);
+    }
+
+    public function buyerDetails(string $eventId, string $ticketId)
+    {
+        $event = Event::findOrFail($eventId);
+
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $ticket = $event->tickets()->findOrFail($ticketId);
+
+        return view('events.buyer-details', [
+            'event' => $event,
+            'ticket' => $ticket,
+        ]);
+    }
 }

@@ -41,4 +41,18 @@ class TicketController extends Controller
 
         return view('tickets.index', ['tickets' => $tickets,]);
     }
+
+    public function destroy(string $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        if ($ticket->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $ticket->delete();
+
+        return redirect('/my-tickets')
+            ->with('success', 'Ticket cancelled successfully.');
+    }
 }

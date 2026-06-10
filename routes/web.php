@@ -19,6 +19,9 @@ Route::delete('/events/{id}', [EventController::class, 'destroy'])->middleware('
 Route::post('/events/{id}/tickets', [TicketController::class, 'store'])->middleware('auth');
 Route::get('/my-tickets', [TicketController::class, 'index'])->middleware('auth');
 Route::get('/my-events', [EventController::class, 'myEvents'])->middleware('auth');
+Route::delete('/tickets/{id}', [TicketController::class, 'destroy'])->middleware('auth');
+Route::get('/events/{id}/buyers', [EventController::class, 'buyers'])->middleware('auth');
+Route::get('/events/{eventId}/buyers/{ticketId}', [EventController::class, 'buyerDetails'])->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -15,6 +15,15 @@
 
             <p>Status: {{ $ticket->status }}</p>
 
+            <form method="POST" action="/tickets/{{ $ticket->id }}">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit">
+                    Cancel Ticket
+                </button>
+            </form>
+
             <hr>
 
         @endforeach
