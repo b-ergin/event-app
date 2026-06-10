@@ -54,7 +54,12 @@ class EventController extends Controller
             'event_date' => 'required|date',
             'ticket_price' => 'required|numeric|min:0',
             'total_tickets' => 'required|integer|min:1',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('event-images', 'public');
+        }
 
         $data['organizer_id'] = auth()->id();
 
@@ -87,7 +92,12 @@ class EventController extends Controller
             'event_date' => 'required|date',
             'ticket_price' => 'required|numeric|min:0',
             'total_tickets' => 'required|integer|min:1',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('event-images', 'public');
+        }
 
         $event->update($data);
 

@@ -1,6 +1,6 @@
 <h1>Edit Event</h1>
 
-<form method="POST" action="/events/{{ $event->id }}">
+<form method="POST" action="/events/{{ $event->id }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -35,6 +35,11 @@
     <div>
         <label>Total Tickets</label>
         <input type="number" name="total_tickets" value="{{ $event->total_tickets }}">
+    </div>
+
+    <div>
+        <label>Event Image</label>
+        <input type="file" name="image">
     </div>
 
     <button type="submit">

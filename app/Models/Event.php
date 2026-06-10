@@ -15,6 +15,7 @@ class Event extends Model
         'event_date',
         'ticket_price',
         'total_tickets',
+        'image',
     ];
     
     public function organizer()

@@ -1,6 +1,6 @@
 <h1>Create Event</h1>
 
-<form method="POST" action="/events">
+<form method="POST" action="/events" enctype="multipart/form-data">
     @csrf
 
     <div>
@@ -31,6 +31,11 @@
     <div>
         <label>Total Tickets</label>
         <input type="number" name="total_tickets">
+    </div>
+
+    <div>
+        <label>Event Image</label>
+        <input type="file" name="image">
     </div>
 
     <button type="submit">

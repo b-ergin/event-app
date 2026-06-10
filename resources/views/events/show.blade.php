@@ -13,6 +13,14 @@
             <p>{{ session('error') }}</p>
         @endif
 
+        @if ($event->image)
+            <img
+                src="{{ asset('storage/' . $event->image) }}"
+                alt="{{ $event->title }}"
+                width="300"
+            >
+        @endif
+
         <p>{{ $event->description }}</p>
 
         <p>Venue: {{ $event->venue }}</p>
