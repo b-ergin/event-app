@@ -29,18 +29,14 @@ class EventController extends Controller
 
     public function create()
     {
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
+        $this->requireOrganizer();
 
         return view('events.create');
     }
 
     public function store(Request $request)
     {
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
+        $this->requireOrganizer();
 
         $data = $request->validate([
             'title' => 'required',
@@ -62,13 +58,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
-
-        if ($event->organizer_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->requireOrganizer();
+        $this->requireEventOwner($event);
 
         return view('events.edit', ['event' => $event]);
     }
@@ -77,13 +68,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
-
-        if ($event->organizer_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->requireOrganizer();
+        $this->requireEventOwner($event);
 
         $data = $request->validate([
             'title' => 'required',
@@ -103,13 +89,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
-
-        if ($event->organizer_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->requireOrganizer();
+        $this->requireEventOwner($event);
 
         $event->delete();
 
@@ -133,13 +114,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
-
-        if ($event->organizer_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->requireOrganizer();
+        $this->requireEventOwner($event);
 
         $tickets = $event->tickets;
 
@@ -153,13 +129,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($eventId);
 
-        if (auth()->user()->role !== 'organizer') {
-            abort(403);
-        }
-
-        if ($event->organizer_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->requireOrganizer();
+        $this->requireEventOwner($event);
 
         $ticket = $event->tickets()->findOrFail($ticketId);
 
@@ -167,5 +138,19 @@ class EventController extends Controller
             'event' => $event,
             'ticket' => $ticket,
         ]);
+    }
+
+    private function requireOrganizer()
+    {
+        if (auth()->user()->role !== 'organizer') {
+            abort(403);
+        }
+    }
+
+    private function requireEventOwner(Event $event)
+    {
+        if ($event->organizer_id !== auth()->id()) {
+            abort(403);
+        }
     }
 }
