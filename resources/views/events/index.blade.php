@@ -5,24 +5,46 @@
 
     <div class="p-6">
 
+        <form method="GET" action="/events">
+            <input
+                type="text"
+                name="search"
+                value="{{ $search }}"
+                placeholder="Search events..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+        </form>
+
+        @if ($search)
+            <a href="/events">Clear Search</a>
+        @endif
+
         <hr>
+        
+        @if ($events->isEmpty())
+            <p>No events found.</p>
+        @else
 
-        @foreach ($events as $event)
+            @foreach ($events as $event)
 
-            <h2>
-                <a href="/events/{{ $event->id }}" style="background-color: teal;">
-                    {{ $event->title }}
-                </a>
-            </h2>
+                <h2>
+                    <a href="/events/{{ $event->id }}" style="background-color: teal;">
+                        {{ $event->title }}
+                    </a>
+                </h2>
 
-            <p>{{ $event->description }}</p>
-            <p>Venue: {{ $event->venue }}</p>
-            <p>Date: {{ $event->event_date }}</p>
-            <p>Price: {{ $event->ticket_price }}</p>
+                <p>{{ $event->description }}</p>
+                <p>Venue: {{ $event->venue }}</p>
+                <p>Date: {{ $event->event_date }}</p>
+                <p>Price: {{ $event->ticket_price }}</p>
 
-            <hr>
+                <hr>
 
-        @endforeach
+            @endforeach
+        @endif
 
     </div>
 </x-app-layout>
