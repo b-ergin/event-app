@@ -4,29 +4,32 @@
     </x-slot>
 
     <div class="p-6">
+        @if ($tickets->isEmpty())
+            <p>You have not purchased any tickets yet.</p>
+        @else
+            @foreach ($tickets as $ticket)
 
-        @foreach ($tickets as $ticket)
+                <h2>{{ $ticket->event->title }}</h2>
 
-            <h2>{{ $ticket->event->title }}</h2>
+                <p>Quantity: {{ $ticket->quantity }}</p>
 
-            <p>Quantity: {{ $ticket->quantity }}</p>
+                <p>Total Price: {{ $ticket->total_price }}</p>
 
-            <p>Total Price: {{ $ticket->total_price }}</p>
+                <p>Status: {{ $ticket->status }}</p>
 
-            <p>Status: {{ $ticket->status }}</p>
+                <form method="POST" action="/tickets/{{ $ticket->id }}">
+                    @csrf
+                    @method('DELETE')
 
-            <form method="POST" action="/tickets/{{ $ticket->id }}">
-                @csrf
-                @method('DELETE')
+                    <button type="submit">
+                        Cancel Ticket
+                    </button>
+                </form>
 
-                <button type="submit">
-                    Cancel Ticket
-                </button>
-            </form>
+                <hr>
 
-            <hr>
-
-        @endforeach
+            @endforeach
+        @endif
 
     </div>
 </x-app-layout>

@@ -5,28 +5,34 @@
 
     <div class="p-6">
 
-        @foreach ($events as $event)
+        @if ($events->isEmpty())
+            <p>You have not created any events yet.</p>
+        @else
+            @foreach ($events as $event)
 
-            <h2>
-                <a href="/events/{{ $event->id }}">
-                    {{ $event->title }}
-                </a>
-            </h2>
+                <h2>
+                    <a href="/events/{{ $event->id }}">
+                        {{ $event->title }}
+                    </a>
+                </h2>
 
-            <p>Venue: {{ $event->venue }}</p>
+                <p>Venue: {{ $event->venue }}</p>
 
-            <p>Tickets Sold: {{ $event->tickets()->sum('quantity') }}</p>
+                <p>Tickets Sold: {{ $event->tickets()->sum('quantity') }}</p>
 
-            <p>Revenue: ${{ $event->tickets()->sum('total_price') }}</p>
+                <p>Revenue: {{ $event->tickets()->sum('total_price') }}</p>
 
-            <p>
-                Remaining Tickets:
-                {{ $event->total_tickets - $event->tickets()->sum('quantity') }}
-            </p>
+                <p>
+                    Remaining Tickets:
+                    {{ $event->total_tickets - $event->tickets()->sum('quantity') }}
+                </p>
 
-            <hr>
+                <a href="/events/{{ $event->id }}/buyers">View Buyers</a>
 
-        @endforeach
+                <hr>
+
+            @endforeach
+        @endif
 
     </div>
 </x-app-layout>

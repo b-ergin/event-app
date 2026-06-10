@@ -5,21 +5,27 @@
 
     <div class="p-6">
 
-        @foreach ($tickets as $ticket)
+        @if ($tickets->isEmpty())
+            <p>No tickets have been sold for this event yet.</p>
+        @else
 
-            <p>
-                {{ $ticket->user->email }}
-                —
-                Quantity: {{ $ticket->quantity }}
+            @foreach ($tickets as $ticket)
 
-                <a href="/events/{{ $event->id }}/buyers/{{ $ticket->id }}">
-                    View
-                </a>
-            </p>
+                <p>
+                    {{ $ticket->user->email }}
+                    —
+                    Quantity: {{ $ticket->quantity }}
 
-            <hr>
+                    <a href="/events/{{ $event->id }}/buyers/{{ $ticket->id }}">
+                        View
+                    </a>
+                </p>
 
-        @endforeach
+                <hr>
+
+            @endforeach
+
+        @endif
 
     </div>
 </x-app-layout>
