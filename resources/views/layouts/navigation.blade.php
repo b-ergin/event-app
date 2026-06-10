@@ -15,6 +15,25 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="url('/events')">
+                        Events
+                    </x-nav-link>
+
+                    <x-nav-link :href="url('/my-tickets')">
+                        My Tickets
+                    </x-nav-link>
+                    @if (auth()->user()->role === 'organizer')
+
+                        <x-nav-link :href="url('/my-events')">
+                            My Events
+                        </x-nav-link>
+
+                        <x-nav-link :href="url('/events/create')">
+                            Create Event
+                        </x-nav-link>
+
+                    @endif
                 </div>
             </div>
 

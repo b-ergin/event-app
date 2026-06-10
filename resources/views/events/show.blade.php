@@ -30,13 +30,15 @@
     </button>
 </form>
 
-<a href="/events/{{ $event->id }}/edit">Edit Event</a>
+@if (auth()->check() && auth()->user()->role === 'organizer' && $event->organizer_id === auth()->id())
+    <a href="/events/{{ $event->id }}/edit">Edit Event</a>
 
-<form method="POST" action="/events/{{ $event->id }}">
-    @csrf
-    @method('DELETE')
+    <form method="POST" action="/events/{{ $event->id }}">
+        @csrf
+        @method('DELETE')
 
-    <button type="submit">
-        Delete Event
-    </button>
-</form>
+        <button type="submit">
+            Delete Event
+        </button>
+    </form>
+@endif    
