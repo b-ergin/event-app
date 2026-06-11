@@ -29,6 +29,13 @@
         @else
 
             @foreach ($events as $event)
+                @if ($event->image)
+                    <img
+                        src="{{ asset('storage/' . $event->image) }}"
+                        alt="{{ $event->title }}"
+                        width="150"
+                    >
+                @endif
 
                 <h2>
                     <a href="/events/{{ $event->id }}" style="background-color: teal;">
