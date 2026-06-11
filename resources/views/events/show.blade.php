@@ -31,24 +31,38 @@
 
         <p>Remaining Tickets: {{ $remainingTickets }}</p>
 
-        <a href="/events">Back to Events</a>
+        <p>
+            <a href="/events">Back to Events</a>
+        </p>
 
-        <a href="/my-tickets">My Tickets</a>
+        @auth
+            <a href="/my-tickets">My Tickets</a>
+        @endauth
 
-        <h2>Buy Tickets</h2>
+        @auth
+            <h2>Buy Tickets</h2>
 
-        <form method="POST" action="/events/{{ $event->id }}/tickets">
-            @csrf
+            <form method="POST" action="/events/{{ $event->id }}/tickets">
+                @csrf
 
-            <div>
-                <label>Quantity</label>
-                <input type="number" name="quantity" min="1" value="1">
-            </div>
+                <div>
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" min="1" value="1">
+                </div>
 
-            <button type="submit">
-                Buy Ticket
-            </button>
-        </form>
+                <button type="submit">
+                    Buy Ticket
+                </button>
+            </form>
+        @endauth
+
+        @guest
+            <p>
+                <a href="{{ route('login') }}">
+                    Login to Buy Tickets
+                </a>
+            </p>    
+        @endguest
 
         @if (auth()->check() && auth()->user()->role === 'organizer' && $event->organizer_id === auth()->id())
 
