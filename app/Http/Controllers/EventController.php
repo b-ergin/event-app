@@ -110,12 +110,16 @@ class EventController extends Controller
         return redirect("/events/{$event->id}");
     }
 
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
         $event = Event::findOrFail($id);
 
         $this->requireOrganizer();
         $this->requireEventOwner($event);
+
+        if ($event->image) {
+            Storage::disk('public')->delete($event->image);
+        }
 
         $event->delete();
 
