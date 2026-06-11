@@ -10,6 +10,7 @@ class Event extends Model
     protected $fillable = [
         'organizer_id',
         'title',
+        'category_id',
         'description',
         'venue',
         'event_date',
@@ -26,6 +27,11 @@ class Event extends Model
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
 

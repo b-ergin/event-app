@@ -10,6 +10,25 @@
     </div>
 
     <div>
+        <label>Category</label>
+
+        <select name="category_id">
+            @foreach ($categories as $category)
+
+                <option
+                    value="{{ $category->id }}"
+                    @if ($event->category_id == $category->id)
+                        selected
+                    @endif
+                >
+                    {{ $category->name }}
+                </option>
+
+            @endforeach
+        </select>
+    </div>
+
+    <div>
         <label>Description</label>
         <textarea name="description">{{ $event->description }}</textarea>
     </div>

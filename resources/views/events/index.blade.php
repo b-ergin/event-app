@@ -44,6 +44,7 @@
                 </h2>
 
                 <p>{{ $event->description }}</p>
+                <p>Category: {{ $event->category ? $event->category->name : 'Uncategorized' }}</p>
                 <p>Venue: {{ $event->venue }}</p>
                 <p>Date: {{ $event->event_date }}</p>
                 <p>Price: {{ $event->ticket_price }}</p>
@@ -52,6 +53,8 @@
 
             @endforeach
         @endif
+
+        {{ $events->links() }}
 
     </div>
 </x-app-layout>

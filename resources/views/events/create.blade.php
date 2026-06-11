@@ -9,6 +9,18 @@
     </div>
 
     <div>
+        <label>Category</label>
+
+        <select name="category_id">
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div>
         <label>Description</label>
         <textarea name="description"></textarea>
     </div>

@@ -23,6 +23,8 @@
 
         <p>{{ $event->description }}</p>
 
+        <p>Category: {{ $event->category ? $event->category->name : 'Uncategorized' }}</p>
+
         <p>Venue: {{ $event->venue }}</p>
 
         <p>Date: {{ $event->event_date }}</p>

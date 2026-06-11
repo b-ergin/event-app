@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Category;
 class EventController extends Controller
 {
     public function index()
@@ -19,7 +19,7 @@ class EventController extends Controller
                 ->orWhere('venue', 'like', "%{$search}%");
         }
 
-        $events = $events->get();
+        $events = $events->paginate(5)->withQueryString();
 
         return view('events.index', ['events' => $events, 'search' =>$search,]);
     }
@@ -40,8 +40,10 @@ class EventController extends Controller
     public function create()
     {
         $this->requireOrganizer();
+        $categories = Category::all();
 
-        return view('events.create');
+
+        return view('events.create',['categories' => $categories]);
     }
 
     public function store(Request $request)
@@ -50,6 +52,7 @@ class EventController extends Controller
 
         $data = $request->validate([
             'title' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'required',
             'venue' => 'required',
             'event_date' => 'required|date',
@@ -76,7 +79,9 @@ class EventController extends Controller
         $this->requireOrganizer();
         $this->requireEventOwner($event);
 
-        return view('events.edit', ['event' => $event]);
+        $categories = Category::all();
+
+        return view('events.edit', ['event' => $event, 'categories' => $categories]);
     }
 
     public function update(Request $request, string $id)
@@ -88,6 +93,7 @@ class EventController extends Controller
 
         $data = $request->validate([
             'title' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'required',
             'venue' => 'required',
             'event_date' => 'required|date',
