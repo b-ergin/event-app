@@ -10,11 +10,29 @@
         @else
             @foreach ($events as $event)
 
+                @if ($event->image)
+                    <img
+                        src="{{ asset('storage/' . $event->image) }}"
+                        alt="{{ $event->title }}"
+                        width="150"
+                    >
+                @endif
+
                 <h2>
                     <a href="/events/{{ $event->id }}">
                         {{ $event->title }}
                     </a>
                 </h2>
+
+                <p>
+                    Category:
+                    {{ $event->category ? $event->category->name : 'Uncategorized' }}
+                </p>
+
+                <p>
+                    Status:
+                    {{ ucfirst($event->status) }}
+                </p>
 
                 <p>Venue: {{ $event->venue }}</p>
 
@@ -27,7 +45,9 @@
                     {{ $event->total_tickets - $event->tickets()->sum('quantity') }}
                 </p>
 
-                <a href="/events/{{ $event->id }}/buyers">View Buyers</a>
+                <a href="/events/{{ $event->id }}/buyers">
+                    View Buyers
+                </a>
 
                 <hr>
 

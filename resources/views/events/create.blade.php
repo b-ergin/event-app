@@ -47,10 +47,38 @@
 
     <div>
         <label>Event Image</label>
-        <input type="file" name="image">
+        <input type="file" name="image" id="imageInput">
+
+        <img
+            id="imagePreview"
+            src=""
+            alt="Selected event image preview"
+            width="200"
+            style="display: none;"
+        >
     </div>
 
-    <button type="submit">
-        Create Event
+    <button name="status" value="draft">
+        Save Draft
+    </button>
+
+    <button name="status" value="published">
+        Publish
     </button>
 </form>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            imagePreview.src = URL.createObjectURL(file);
+            imagePreview.style.display = 'block';
+        }
+
+    });
+</script>

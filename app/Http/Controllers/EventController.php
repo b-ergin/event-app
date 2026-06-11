@@ -12,7 +12,7 @@ class EventController extends Controller
     {
         $search = request('search');
 
-        $events = Event::query();
+        $events = Event::where('status', 'published');
 
         if ($search) {
             $events->where('title', 'like', "%{$search}%")
@@ -53,6 +53,7 @@ class EventController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'category_id' => 'required|exists:categories,id',
+            'status' => 'required|in:draft,published',
             'description' => 'required',
             'venue' => 'required',
             'event_date' => 'required|date',
@@ -94,6 +95,7 @@ class EventController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'category_id' => 'required|exists:categories,id',
+            'status' => 'required|in:draft,published',
             'description' => 'required',
             'venue' => 'required',
             'event_date' => 'required|date',

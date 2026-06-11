@@ -57,11 +57,68 @@
     </div>
 
     <div>
-        <label>Event Image</label>
-        <input type="file" name="image">
+        <label>Current Event Image</label>
+
+        @if ($event->image)
+            <img
+                id="imagePreview"
+                src="{{ asset('storage/' . $event->image) }}"
+                alt="{{ $event->title }}"
+                width="200"
+            >
+        @else
+            <img
+                id="imagePreview"
+                src=""
+                alt="Event image preview"
+                width="200"
+                style="display: none;"
+            >
+
+            <p id="noImageText">
+                No image uploaded yet.
+            </p>
+        @endif
     </div>
 
-    <button type="submit">
-        Update Event
+    <div>
+        <label>Replace Event Image</label>
+        <input type="file" name="image" id="imageInput">
+    </div>
+
+    <p>
+        Current Status: {{ ucfirst($event->status) }}
+    </p>
+
+    <button type="submit" name="status" value="draft">
+        Save as Draft
+    </button>
+
+    <button type="submit" name="status" value="published">
+        Publish
     </button>
 </form>
+
+
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            imagePreview.src = URL.createObjectURL(file);
+            imagePreview.style.display = 'block';
+
+            const noImageText = document.getElementById('noImageText');
+
+            if (noImageText) {
+                noImageText.style.display = 'none';
+            }
+        }
+
+    });
+</script>
