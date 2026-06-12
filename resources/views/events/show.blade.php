@@ -42,20 +42,24 @@
         @endauth
 
         @auth
-            <h2>Buy Tickets</h2>
+            @if ($event->organizer_id === auth()->id())
+                <p>You are the organizer of this event.</p>
+            @else
+                <h2>Buy Tickets</h2>
 
-            <form method="POST" action="/events/{{ $event->id }}/tickets">
-                @csrf
+                <form method="POST" action="/events/{{ $event->id }}/tickets">
+                    @csrf
 
-                <div>
-                    <label>Quantity</label>
-                    <input type="number" name="quantity" min="1" value="1">
-                </div>
+                    <div>
+                        <label>Quantity</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
 
-                <button type="submit">
-                    Buy Ticket
-                </button>
-            </form>
+                    <button type="submit">
+                        Buy Ticket
+                    </button>
+                </form>
+            @endif
         @endauth
 
         @guest

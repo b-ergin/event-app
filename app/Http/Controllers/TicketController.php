@@ -11,6 +11,11 @@ class TicketController extends Controller
     public function store(Request $request, string $id)
     {
         $event = Event::findOrFail($id);
+        
+        if ($event->organizer_id === auth()->id()) {
+            return redirect("/events/{$event->id}")
+                ->with('error', 'You cannot buy tickets for your own event.');
+        }
 
         $data = $request->validate([
             'quantity' => 'required|integer|min:1',
