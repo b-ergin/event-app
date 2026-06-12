@@ -32,6 +32,10 @@
                 <p>
                     Status:
                     {{ ucfirst($event->status) }}
+
+                    @if ($event->event_date < now())
+                        / Past Event
+                    @endif
                 </p>
 
                 <p>Venue: {{ $event->venue }}</p>

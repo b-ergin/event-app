@@ -12,11 +12,14 @@ class EventController extends Controller
     {
         $search = request('search');
 
-        $events = Event::where('status', 'published');
+        $events = Event::where('status', 'published')
+            ->where('event_date', '>=', now());
 
         if ($search) {
-            $events->where('title', 'like', "%{$search}%")
-                ->orWhere('venue', 'like', "%{$search}%");
+            $events->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('venue', 'like', "%{$search}%");
+            });
         }
 
         $events = $events->paginate(5)->withQueryString();

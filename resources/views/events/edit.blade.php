@@ -1,12 +1,24 @@
 <h1>Edit Event</h1>
 
+@if ($errors->any())
+    <div>
+        <h2>Please fix the following errors:</h2>
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <form method="POST" action="/events/{{ $event->id }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
     <div>
         <label>Title</label>
-        <input type="text" name="title" value="{{ $event->title }}">
+        <input type="text" name="title" value="{{ old('title', $event->title) }}">
     </div>
 
     <div>
@@ -14,46 +26,45 @@
 
         <select name="category_id">
             @foreach ($categories as $category)
-
                 <option
                     value="{{ $category->id }}"
-                    @if ($event->category_id == $category->id)
+                    @if (old('category_id', $event->category_id) == $category->id)
                         selected
                     @endif
                 >
                     {{ $category->name }}
                 </option>
-
             @endforeach
         </select>
     </div>
 
     <div>
         <label>Description</label>
-        <textarea name="description">{{ $event->description }}</textarea>
+        <textarea name="description">{{ old('description', $event->description) }}</textarea>
     </div>
 
     <div>
         <label>Venue</label>
-        <input type="text" name="venue" value="{{ $event->venue }}">
+        <input type="text" name="venue" value="{{ old('venue', $event->venue) }}">
     </div>
 
     <div>
+        <label>Event Date</label>
         <input
-        type="datetime-local"
-        name="event_date"
-        value="{{ \Carbon\Carbon::parse($event->event_date)->format('Y-m-d\TH:i') }}"
+            type="datetime-local"
+            name="event_date"
+            value="{{ old('event_date', \Carbon\Carbon::parse($event->event_date)->format('Y-m-d\TH:i')) }}"
         >
     </div>
 
     <div>
         <label>Ticket Price</label>
-        <input type="number" step="0.01" name="ticket_price" value="{{ $event->ticket_price }}">
+        <input type="number" step="0.01" name="ticket_price" value="{{ old('ticket_price', $event->ticket_price) }}">
     </div>
 
     <div>
         <label>Total Tickets</label>
-        <input type="number" name="total_tickets" value="{{ $event->total_tickets }}">
+        <input type="number" name="total_tickets" value="{{ old('total_tickets', $event->total_tickets) }}">
     </div>
 
     <div>
@@ -99,14 +110,11 @@
     </button>
 </form>
 
-
-
 <script>
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
 
     imageInput.addEventListener('change', function () {
-
         const file = this.files[0];
 
         if (file) {
@@ -119,6 +127,5 @@
                 noImageText.style.display = 'none';
             }
         }
-
     });
 </script>
